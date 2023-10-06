@@ -1,0 +1,19 @@
+ <!-- Main Component -->
+
+    <nav class="navbar navbar-expand px-3 border-bottom">
+        <!-- Button for sidebar toggle -->
+        <button class="btn" type="button" data-bs-theme="dark">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="form-outline text-center mx-auto">
+            <select id="language_value" class="form-select" aria-label="Language" name="parentSeries">
+                <option value="">Select Language</option>
+                <option value="en" <%= current_lang == "en" ? 'selected' : '' %> >English</option>
+                <option value="es" <%= current_lang == "es" ? 'selected' : '' %> >Spanish</option>
+                <option value="he" <%= current_lang == "he" ? 'selected' : '' %> >Hebrew</option>
+                <option value="yi" <%= current_lang == "yi" ? 'selected' : '' %> >Yiddish</option>
+              </select>
+        </div>
+    </nav>
+ 

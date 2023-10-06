@@ -1,0 +1,130 @@
+<!-- Sidebar -->
+<aside id="sidebar">
+    <div class="h-100">
+        <div class="sidebar-logo">
+            <a href="#">Torazoom App</a>
+        </div>
+        <!-- Sidebar Navigation -->
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Tools & Components
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fa-solid fa-list pe-2"></i>
+                    Profile
+                </a>
+            </li>
+            <li class="sidebar-item" <% if(current_path == "/feature"){ %> style="background:#81939f;" <% } %> >
+                <a href="/feature" class="sidebar-link">
+                    <i class="fa-solid fa-list pe-2"></i>
+                    Feature 
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
+                    aria-expanded="false" aria-controls="pages">
+                    <i class="fa-regular fa-file-lines pe-2"></i>
+                    Pages
+                </a>
+                <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Analytics</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Ecommerce</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Crypto</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="/dashboard" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
+                    aria-expanded="false" aria-controls="dashboard">
+                    <i class="fa-solid fa-sliders pe-2"></i>
+                    Dashboard
+                </a>
+                <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/dashboard" class="sidebar-link">Dashboard Analytics</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/series" class="sidebar-link">Series</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/series/translation" class="sidebar-link">Series Translation</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/topics" class="sidebar-link">Topics</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/topic/translation" class="sidebar-link">Topics Translation</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                    aria-expanded="false" aria-controls="auth">
+                    <i class="fa-regular fa-user pe-2"></i>
+                    Auth
+                </a>
+                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Login</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Register</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-header">
+                Multi Level Nav
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link   <%= (current_path == "/topics") || (current_path == "/series/") || (current_path == "/series/translation")  ? '' : 'collapsed' %> " data-bs-toggle="collapse" data-bs-target="#multi"
+                    aria-expanded="<%= current_path == "/topic" || current_path == "/series" ? 'false' : 'true' %>" aria-controls="multi">
+                    <i class="fa-solid fa-share-nodes pe-2"></i>
+                    Taxonomy 
+                </a>
+                <ul id="multi" class="sidebar-dropdown list-unstyled  <%= current_path == "/topics" || current_path == "/series/" || (current_path == "/series/translation") ? 'collapse show' : '' %>" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link  <%=  current_path == "/series/" || (current_path == "/series/translation") ? '' : 'collapsed' %>" data-bs-toggle="collapse"
+                            data-bs-target="#multi-two" aria-expanded="false " aria-controls="multi-two">
+                            Series 
+                        </a>
+                        <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse <%=  current_path == "/series/" || (current_path == "/series/translation") ? 'show' : '' %>">
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link d-none">Add New</a>
+                            </li>
+                            <li class="sidebar-item" <% if(current_path == "/series/" ){ %> style="background-color:#81939f;"  <% } %> >
+                                <a href="/series" class="sidebar-link"  >Series</a>
+                            </li>
+                            <li class="sidebar-item" <% if(current_path == "/series/translation" ){ %> style="background-color:#81939f;"  <% } %>>
+                                <a href="/series/translation" class="sidebar-link">Series Translation</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link <%=  current_path == "/topics" ? '' : 'collapsed' %>" data-bs-toggle="collapse"
+                            data-bs-target="#multi-three" aria-expanded="false" aria-controls="multi-three">
+                            Topic
+                        </a>
+                        <ul id="multi-three" class="sidebar-dropdown list-unstyled collapse <%=  current_path == "/topics" || current_path == "/topic/translation" ? 'show' : '' %>">
+                            <li class="sidebar-item d-none">
+                                <a href="/topic/add" class="sidebar-link">Add New</a>
+                            </li>
+                            <li class="sidebar-item" <% if(current_path == "/topics" ){ %> style="background-color:#81939f;"  <% } %>>
+                                <a href="/topics" class="sidebar-link">Topic</a>
+                            </li>
+                            <li class="sidebar-item" <% if(current_path == "/topic/translation" ){ %> style="background-color:#81939f;"  <% } %> >
+                                <a href="/topic/translation" class="sidebar-link">Topic Translation</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</aside>

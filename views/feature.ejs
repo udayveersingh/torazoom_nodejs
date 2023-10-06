@@ -1,0 +1,161 @@
+<%- include('./partials/dashboard/header.ejs'); %>
+  <!-- select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<%- include('./partials/dashboard/sidebar.ejs'); %>
+
+
+  <!-- Main Component -->
+  <div class="main">
+
+    
+
+    <%- include('./partials/dashboard/topbar.ejs'); %>
+    <main class="content px-3 py-2">
+        <div class="container-fluid">
+            <div class="mb-3">
+
+            <form method="POST">
+                <div style=" " class="container">
+                    <div style="">
+                        <div class="row mt-4">
+                            <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label text-white" for="series">Featue Series</label>
+                                        <select class="prompt" name="series" multiple>
+                                            <% series.forEach((item)=>{ %>
+                                                <option value="<%= item._id %>"   
+                                                    <% if (seriesIds.some(id => id.toString() === item._id.toString())) { %>
+                                                        selected 
+                                                    <% } %>
+                                                    >
+                                                    <%= item.title %> 
+                                                </option>
+                                            <%  }) %>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label text-white" for="topic">Feature Topic</label>
+                                        <select class="prompt_topic" name="topic" multiple>
+                                            <% topic.forEach((item)=>{ %>
+                                                <option value="<%= item._id %>"
+                                                    <% if (topicIds.some(id => id.toString() === item._id.toString())) { %>
+                                                        selected 
+                                                    <% } %>
+                                                    >
+                                                    <%= item.title %> 
+                                                </option>
+                                            <%  }) %>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label text-white" for="topic">Category Slider</label>
+                                        <select class="prompt_category" name="category_slider" multiple>
+                                            <% topic.forEach((item)=>{ %>
+                                                <option value="<%= item._id %>"
+                                                    <% if (categoryIds.some(id => id.toString() === item._id.toString())) { %>
+                                                        selected 
+                                                    <% } %>
+                                                    >
+                                                    <%= item.title %> 
+                                                </option>
+                                            <%  }) %>
+                                        </select>
+                                    </div>
+
+                                <button  type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <% if (message) { %>
+                <p class="text-success"><%= message %></p>
+            <% } %>
+
+            </div>
+        </div>
+    </main>
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <!--    &lt;!&ndash; for handle Bar &ndash;&gt;-->
+    <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <script>
+  
+        var content = [
+            <% series.forEach(function(item, index) { %>
+                {
+                    id: "<%= item._id %>",
+                    text: "<%= item.title %>",
+                    email: "<%= item.email %>"
+                },
+                <% if (index < series.length - 1) { %>
+                    , // Add a comma for all items except the last one
+                <% } %>
+            <% }); %>
+        ];
+
+        var content2 = [
+            <% topic.forEach(function(item, index) { %>
+                {
+                    id: "<%= item._id %>",
+                    text: "<%= item.title %>",
+                    email: "<%= item.email %>"
+                },
+                <% if (index < topic.length - 1) { %>
+                    , // Add a comma for all items except the last one
+                <% } %>
+            <% }); %>
+        ];
+
+        console.log("== content ====");
+        console.log(content);
+    
+    
+         $(".prompt").select2({
+             data:content,
+             // minimumInputLength: 2,
+             width: '100%',
+             multiple:true,
+             placeholder:"Enter Feature Series",
+             // templateResult:formatState
+    
+         });
+
+         $(".prompt_topic").select2({
+             data:content2,
+             // minimumInputLength: 2,
+             width: '100%',
+             multiple:true,
+             placeholder:"Enter Feature Topic",
+             // templateResult:formatState
+    
+         });
+         $(".prompt_category").select2({
+             data:content2,
+             // minimumInputLength: 2,
+             width: '100%',
+             multiple:true,
+             placeholder:"Enter Category Name",
+             // templateResult:formatState
+    
+         });
+    
+    </script>
+
+<%- include('./partials/dashboard/footer.ejs'); %>

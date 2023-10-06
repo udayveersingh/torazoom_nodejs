@@ -1,0 +1,182 @@
+<%- include('./partials/dashboard/header.ejs'); %>
+
+<%- include('./partials/dashboard/sidebar.ejs'); %>
+
+
+  <!-- Main Component -->
+  <div class="main">
+    <nav class="navbar navbar-expand px-3 border-bottom">
+        <!-- Button for sidebar toggle -->
+        <button class="btn" type="button" data-bs-theme="dark">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <main class="content px-3 py-2">
+        <div class="container-fluid">
+            <div class="mb-3">
+                <div class="row">
+                    <h3>Edit Topics</h3>
+                    <div class="col-sm-6">
+                        <form class="text-white">
+                            <!-- Name input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="name">Name</label>
+                              <input type="text" id="name" class="form-control" name="name" value="<%= result.title %>" />
+                            </div>
+                          
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="slug">Slug</label>
+                              <input type="text" id="slug" class="form-control" name="slug" value="<%= result.slug %>" />
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="position">Parent Topics</label>
+                                <select id="parentTopic" class="form-select" aria-label="Language" name="parentTopic">
+                                    <option value="">Select Parent Topics</option>
+                                    <% topics.forEach((item)=>{ %>
+                                        <option value="<%= item._id %>"><%= item.title %></option>
+                                    <%  }) %>
+                                  </select>
+                            </div>
+                          
+                            <!-- Message input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="description">Description</label>
+                              <textarea class="form-control" id="description" rows="4" name="description"><%= result.description %></textarea>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="position">position</label>
+                              <input type="number" id="position" class="form-control" name="position" value="<%= result.order %>"  />
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label for="image" class="form-label">Image</label>
+                                <input class="form-control" type="file" id="image" name="image">
+                                <img src="<%= result.thumbnail %>" alt="" width="30%">
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="position">Language</label>
+                                <select id="language" class="form-select" aria-label="Language" name="language">
+                                    <option selected>Open this select menu </option>
+                                    <% langauges.forEach((item)=>{ %>
+                                        <option value="<%= item.langCode %>" 
+                                            <% if (item.langCode == result.lang) { %>
+                                                 selected 
+                                            <% } %> 
+                                        >
+                                            <%= item.language %>
+                                        </option>
+                                    <%  }) %>
+                                  </select>
+                            </div>
+
+                            <% const translationsMap = {}; %>
+                            <% result.translations.forEach(translation => { %>
+                                <% translationsMap[translation.languageCode] = translation.translation; %>
+                            <% }); %>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="spanish">Spanish Translation</label>
+                                <input type="text" id="spanish" class="form-control" name="spanish" value="<%= translationsMap['es'] || '' %>" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="hebrew">Hebrew Translation</label>
+                                <input type="text" id="hebrew" class="form-control" name="hebrew" value="<%= translationsMap['he'] || '' %>" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="yiddish">Yiddish Translation</label>
+                                <input type="text" id="yiddish" class="form-control" name="yiddish" value="<%= translationsMap['yi'] || '' %>" />
+                            </div>
+                          
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">Send</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+     $( document ).ready(function() {
+        
+
+        $("form").submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Perform form validation
+                var isValid = validateForm();
+
+                if (isValid) {
+                    // If the form is valid, proceed with AJAX submission
+
+                     var formData = new FormData(this);
+
+                     var topic_id = "<%= result._id %>";
+                     console.log(topic_id);
+                     console.log("=== series here ===");
+                    // Send the AJAX POST request
+                    $.ajax({
+                        type: "POST", // Change to "POST" or "PUT" if needed
+                        url: `/api/topic/update/${topic_id}`, // Replace with your API endpoint
+                        // data: JSON.stringify(formData),
+                        data: formData,
+                        processData: false, // Prevent jQuery from processing the data
+                        contentType: false, // Let jQuery set the correct content type
+                        success: function (response) {
+                            // Handle the success response here
+                            console.log("Success:", response);
+                            if(response.status == "success"){
+                                $("form").after(`<span class="error-message text-success">Topic updated successfully.</span>`);
+                                location.reload();
+                            }else{
+                                $("form").after(`<span class="error-message text-danger">Unable to add 
+                                    Topic</span>`);
+                            }
+                        },
+                        error: function (error) {
+                            // Handle the error response here
+                            console.log("Error:", error);
+                            $("form").after(`<span class="error-message text-danger">${error}</span>`);
+                        },
+                    });
+                }
+        });
+
+            // Form validation function
+        function validateForm() {
+            var isValid = true;
+
+            // Clear previous validation messages
+            $(".error-message").remove();
+
+            // Validate Name field (required)
+            var name = $("#name").val();
+            if (name === "") {
+                $("#name").after('<span class="error-message text-danger">Name is required</span>');
+                isValid = false;
+            }
+
+            // Validate Slug field (required)
+            var slug = $("#slug").val();
+            if (slug === "") {
+                $("#slug").after('<span class="error-message text-danger">Slug is required</span>');
+                isValid = false;
+            }
+
+            // Add more validation for other fields here...
+
+            return isValid;
+        }
+
+    });
+</script>
+
+<%- include('./partials/dashboard/footer.ejs'); %>
